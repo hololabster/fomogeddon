@@ -1,0 +1,171 @@
+/* src/styles/simple-character.css */
+
+.character-container {
+    position: absolute;
+    bottom: 30%;  /* 차트의 중간 영역에 위치 */
+    left: 10%;
+    z-index: 100;
+    pointer-events: none;
+    transition: all 0.3s ease;
+  }
+  
+  .character {
+    width: 24px;
+    height: 24px;
+    position: relative;
+  }
+  
+  /* 도트 캐릭터 기본 스타일 */
+  .character-basic {
+    display: block;
+    width: 20px;
+    height: 20px;
+    background-color: #00a86b;
+    border-radius: 50%;
+    position: relative;
+    box-shadow: 0 0 8px 2px rgba(0, 255, 127, 0.7);
+  }
+  
+  /* 캐릭터 머리 */
+  .character-basic:before {
+    content: '';
+    position: absolute;
+    width: 10px;
+    height: 10px;
+    background-color: white;
+    border-radius: 50%;
+    top: -5px;
+    left: 5px;
+  }
+  
+  /* 캐릭터 다리 */
+  .character-basic:after {
+    content: '';
+    position: absolute;
+    width: 6px;
+    height: 8px;
+    background-color: #00a86b;
+    bottom: -8px;
+    left: 7px;
+  }
+  
+  /* 달리기 애니메이션 */
+  @keyframes run {
+    0%, 100% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-3px);
+    }
+  }
+  
+  .character-running .character-basic {
+    animation: run 0.5s infinite;
+  }
+  
+  .character-running .character-basic:after {
+    animation: legs 0.25s infinite alternate;
+  }
+  
+  @keyframes legs {
+    0% {
+      left: 3px;
+    }
+    100% {
+      left: 11px;
+    }
+  }
+  
+  /* 정지 애니메이션 */
+  @keyframes brake {
+    0% {
+      transform: skewX(0);
+    }
+    30% {
+      transform: skewX(-15deg);
+    }
+    100% {
+      transform: skewX(0);
+    }
+  }
+  
+  .character-stopping .character-basic {
+    animation: brake 0.3s forwards;
+  }
+  
+  /* 속도에 따른 애니메이션 속도 조정 */
+  .speed-very-fast .character-basic {
+    animation-duration: 0.2s;
+  }
+  .speed-fast .character-basic {
+    animation-duration: 0.3s;
+  }
+  .speed-normal .character-basic {
+    animation-duration: 0.5s;
+  }
+  .speed-slow .character-basic {
+    animation-duration: 0.8s;
+  }
+  .speed-very-slow .character-basic {
+    animation-duration: 1.2s;
+  }
+  
+  /* 포지션에 따른 색상 변화 */
+  .position-long .character-basic {
+    background-color: #00a86b;
+    box-shadow: 0 0 8px 2px rgba(0, 255, 127, 0.7);
+  }
+  .position-long .character-basic:after {
+    background-color: #00a86b;
+  }
+  
+  .position-short .character-basic {
+    background-color: #ff3e4d;
+    box-shadow: 0 0 8px 2px rgba(255, 62, 77, 0.7);
+  }
+  .position-short .character-basic:after {
+    background-color: #ff3e4d;
+  }
+  
+  .position-neutral .character-basic {
+    background-color: #60a5fa;
+    box-shadow: 0 0 8px 2px rgba(96, 165, 250, 0.7);
+  }
+  .position-neutral .character-basic:after {
+    background-color: #60a5fa;
+  }
+  
+  /* 점프 애니메이션 */
+  @keyframes jump {
+    0% {
+      transform: translateY(0);
+    }
+    40% {
+      transform: translateY(-15px);
+    }
+    60% {
+      transform: translateY(-15px);
+    }
+    100% {
+      transform: translateY(0);
+    }
+  }
+  
+  .character-jumping .character-basic {
+    animation: jump 0.5s ease-in-out;
+  }
+  
+  /* 경로 표시 */
+  .character-path {
+    position: absolute;
+    height: 2px;
+    background: linear-gradient(90deg, 
+      rgba(255, 255, 255, 0.1), 
+      rgba(255, 255, 255, 0.2), 
+      rgba(255, 255, 255, 0.1));
+    bottom: 32%;
+    left: 0;
+    width: 100%;
+    opacity: 0.3;
+    z-index: 99;
+  }

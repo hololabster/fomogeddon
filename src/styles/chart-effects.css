@@ -1,0 +1,365 @@
+/* src/styles/chart-effects.css */
+
+/* Chart container */
+.chart-container {
+    position: relative;
+    height: 300px;
+    overflow: hidden;
+    border-radius: 6px;
+    background-color: rgba(4, 8, 24, 0.8);
+    margin-top: 1rem;
+  }
+  
+  /* Glowing effect for the chart line */
+  .recharts-line {
+    filter: drop-shadow(0 0 8px rgba(0, 255, 221, 0.8));
+  }
+  
+  .recharts-line-curve {
+    animation: pulseLine 3s infinite alternate;
+  }
+  
+  @keyframes pulseLine {
+    0% {
+      filter: drop-shadow(0 0 3px rgba(0, 255, 221, 0.5));
+    }
+    50% {
+      filter: drop-shadow(0 0 8px rgba(0, 255, 221, 0.8));
+    }
+    100% {
+      filter: drop-shadow(0 0 3px rgba(0, 255, 221, 0.5));
+    }
+  }
+  
+  /* Active dot styling */
+  .recharts-active-dot {
+    animation: pulseDot 1s infinite alternate;
+  }
+  
+  @keyframes pulseDot {
+    0% {
+      r: 4;
+      filter: drop-shadow(0 0 3px rgba(0, 255, 163, 0.7));
+    }
+    100% {
+      r: 6;
+      filter: drop-shadow(0 0 8px rgba(0, 255, 163, 1));
+    }
+  }
+  
+  /* Grid effect overlay */
+  .chart-grid-effect {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: 
+      linear-gradient(rgba(0, 179, 255, 0.05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(0, 179, 255, 0.05) 1px, transparent 1px);
+    background-size: 20px 20px;
+    pointer-events: none;
+    z-index: 2;
+    animation: moveGrid 15s linear infinite;
+  }
+  
+  @keyframes moveGrid {
+    0% {
+      background-position: 0 0;
+    }
+    100% {
+      background-position: 20px 20px;
+    }
+  }
+  
+  /* Scan line effect */
+  .chart-scan-line {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 3px;
+    background: linear-gradient(to right, 
+      rgba(0, 255, 221, 0), 
+      rgba(0, 255, 221, 0.7), 
+      rgba(0, 255, 221, 0));
+    box-shadow: 0 0 10px rgba(0, 255, 221, 0.7);
+    z-index: 3;
+    animation: scanLine 3s linear infinite;
+  }
+  
+  @keyframes scanLine {
+    0% {
+      top: 0;
+      opacity: 0.7;
+    }
+    100% {
+      top: 100%;
+      opacity: 0.3;
+    }
+  }
+  
+  /* Glow effect for entire chart */
+  .chart-glow-effect {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: radial-gradient(
+      circle at 50% 50%,
+      rgba(0, 179, 255, 0.05) 0%,
+      rgba(0, 0, 0, 0) 70%
+    );
+    pointer-events: none;
+    z-index: 1;
+    animation: pulseGlow 5s ease-in-out infinite;
+  }
+  
+  @keyframes pulseGlow {
+    0% {
+      opacity: 0.3;
+    }
+    50% {
+      opacity: 0.6;
+    }
+    100% {
+      opacity: 0.3;
+    }
+  }
+  
+  /* Chart data update pulse effect */
+  .chart-pulse {
+    animation: chartPulse 0.5s ease-out;
+  }
+  
+  @keyframes chartPulse {
+    0% {
+      box-shadow: 0 0 0 0 rgba(0, 255, 221, 0.4);
+    }
+    70% {
+      box-shadow: 0 0 0 10px rgba(0, 255, 221, 0);
+    }
+    100% {
+      box-shadow: 0 0 0 0 rgba(0, 255, 221, 0);
+    }
+  }
+  
+  /* Digital noise effect */
+  .chart-container::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+    opacity: 0.08;
+    pointer-events: none;
+    z-index: 4;
+  }
+  
+  /* Tooltip customization */
+  .custom-tooltip {
+    background-color: rgba(4, 8, 24, 0.9);
+    border: 1px solid rgba(0, 179, 255, 0.3);
+    border-radius: 4px;
+    padding: 8px 12px;
+    box-shadow: 0 0 15px rgba(0, 179, 255, 0.2);
+  }
+  
+  .custom-tooltip .time {
+    color: rgba(255, 255, 255, 0.7);
+    font-size: 12px;
+    margin-bottom: 4px;
+  }
+  
+  .custom-tooltip .price {
+    color: #00ffdd;
+    font-size: 14px;
+    font-weight: 600;
+  }
+  
+  /* Data point highlight effect */
+  .data-point-highlight {
+    position: absolute;
+    width: 12px;
+    height: 12px;
+    background-color: rgba(0, 255, 163, 0.8);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 10px rgba(0, 255, 163, 0.8);
+    z-index: 5;
+    animation: highlightPulse 1s infinite alternate;
+  }
+  
+  @keyframes highlightPulse {
+    0% {
+      transform: translate(-50%, -50%) scale(1);
+      box-shadow: 0 0 5px rgba(0, 255, 163, 0.8);
+    }
+    100% {
+      transform: translate(-50%, -50%) scale(1.3);
+      box-shadow: 0 0 15px rgba(0, 255, 163, 0.8);
+    }
+  }
+  
+  /* Line animation for data updates */
+  .animated-line .recharts-line-curve {
+    stroke-dasharray: 2000;
+    stroke-dashoffset: 2000;
+    animation: drawLine 1s forwards;
+  }
+  
+  @keyframes drawLine {
+    to {
+      stroke-dashoffset: 0;
+    }
+  }
+  
+  /* Price value flashing effect */
+  .price-value {
+    position: relative;
+    font-family: 'Share Tech Mono', monospace;
+    font-size: 1.8rem;
+    font-weight: 600;
+    color: white;
+  }
+  
+  .price-flash-up {
+    animation: flashUp 0.5s;
+  }
+  
+  .price-flash-down {
+    animation: flashDown 0.5s;
+  }
+  
+  @keyframes flashUp {
+    0% {
+      color: white;
+      text-shadow: none;
+    }
+    50% {
+      color: #00ffa3;
+      text-shadow: 0 0 10px rgba(0, 255, 163, 0.8);
+    }
+    100% {
+      color: white;
+      text-shadow: none;
+    }
+  }
+  
+  @keyframes flashDown {
+    0% {
+      color: white;
+      text-shadow: none;
+    }
+    50% {
+      color: #ff0092;
+      text-shadow: 0 0 10px rgba(255, 0, 146, 0.8);
+    }
+    100% {
+      color: white;
+      text-shadow: none;
+    }
+  }
+  
+  /* Digital price counter effect */
+  .price-value::before {
+    content: "";
+    position: absolute;
+    left: 0;
+    top: 0;
+    height: 2px;
+    width: 100%;
+    background: linear-gradient(90deg, transparent, #00b3ff, transparent);
+    animation: scanCounter 2s linear infinite;
+  }
+  
+  @keyframes scanCounter {
+    0% {
+      top: 0;
+    }
+    100% {
+      top: 100%;
+    }
+  }
+  
+  /* Chart axes and grid styling */
+  .recharts-cartesian-axis-tick-value {
+    font-family: 'Share Tech Mono', monospace;
+    fill: rgba(0, 179, 255, 0.7) !important;
+    font-size: 11px !important;
+  }
+  
+  .recharts-cartesian-grid-horizontal line,
+  .recharts-cartesian-grid-vertical line {
+    stroke: rgba(0, 179, 255, 0.1) !important;
+    stroke-dasharray: 3 3;
+  }
+  
+  /* Data update indicator */
+  .data-updating-indicator {
+    position: absolute;
+    top: 8px;
+    right: 8px;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background-color: #00ffa3;
+    opacity: 0;
+    z-index: 10;
+  }
+  
+  .data-updating .data-updating-indicator {
+    animation: dataUpdateBlink 0.5s ease infinite alternate;
+  }
+  
+  @keyframes dataUpdateBlink {
+    0% {
+      opacity: 0.5;
+      box-shadow: 0 0 3px #00ffa3;
+    }
+    100% {
+      opacity: 1;
+      box-shadow: 0 0 8px #00ffa3;
+    }
+  }
+  
+  /* Price percentage change styling */
+  .price-change {
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    font-weight: 500;
+    margin-left: 8px;
+    animation: fadeIn 0.3s;
+  }
+  
+  .price-change-positive {
+    background: rgba(0, 255, 163, 0.15);
+    color: #00ffa3;
+    text-shadow: 0 0 5px rgba(0, 255, 163, 0.5);
+  }
+  
+  .price-change-negative {
+    background: rgba(255, 0, 146, 0.15);
+    color: #ff0092;
+    text-shadow: 0 0 5px rgba(255, 0, 146, 0.5);
+  }
+  
+  .price-change-neutral {
+    background: rgba(255, 255, 255, 0.1);
+    color: white;
+  }
+  
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-5px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }

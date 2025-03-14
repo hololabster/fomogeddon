@@ -1,0 +1,331 @@
+/* src/styles/dot-character.css */
+/* 사이버펑크 도트 캐릭터 애니메이션 */
+
+.character-container {
+    position: absolute;
+    bottom: 23%;
+    left: 10%;
+    z-index: 10;
+    transition: all 0.3s ease;
+    transform-origin: center bottom;
+    pointer-events: none;
+  }
+  
+  /* 스프라이트시트를 Base64로 인코딩한 이미지 대신 가상의 스프라이트시트 */
+  .character {
+    width: 48px;
+    height: 48px;
+    background-repeat: no-repeat;
+    image-rendering: pixelated;
+    transform-origin: center bottom;
+    position: relative;
+  }
+  
+  /* 기본 캐릭터 색상 - 네온 사이버펑크 색상 */
+  .character::before {
+    content: '';
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background-color: rgba(0, 255, 127, 0);
+    box-shadow: 0 0 10px 2px rgba(0, 255, 127, 0.5);
+    border-radius: 50%;
+    z-index: -1;
+    opacity: 0.7;
+    transition: all 0.3s ease;
+  }
+  
+  /* 무기 이펙트 */
+  .character::after {
+    content: '';
+    position: absolute;
+    height: 2px;
+    width: 0;
+    background: linear-gradient(90deg, rgba(0, 255, 127, 0), rgba(0, 255, 127, 1));
+    top: 50%;
+    left: 100%;
+    transform: translateY(-50%);
+    opacity: 0;
+    transition: all 0.1s ease;
+    box-shadow: 0 0 5px rgba(0, 255, 127, 1);
+  }
+  
+  /* 총알 효과 */
+  .bullet {
+    position: absolute;
+    width: 4px;
+    height: 2px;
+    background-color: rgba(0, 255, 127, 1);
+    border-radius: 1px;
+    top: 50%;
+    transform: translateY(-50%);
+    opacity: 0;
+    animation: bullet-fly 0.5s linear forwards;
+    box-shadow: 0 0 3px rgba(0, 255, 127, 1);
+  }
+  
+  @keyframes bullet-fly {
+    0% {
+      left: 110%;
+      opacity: 1;
+    }
+    100% {
+      left: 300%;
+      opacity: 0;
+    }
+  }
+  
+  /* 스프라이트 애니메이션 (가상 스프라이트시트 대신 도트 도형으로 구현) */
+  .character-idle {
+    background: 
+      /* 머리 */
+      radial-gradient(circle at center, #f5f5f5 10px, transparent 10px),
+      /* 몸통 */
+      linear-gradient(to bottom, transparent 20px, #00a86b 20px, #00a86b 35px, transparent 35px),
+      /* 왼팔 */
+      linear-gradient(135deg, transparent 24px, #00a86b 24px, #00a86b 28px, transparent 28px),
+      /* 오른팔 */
+      linear-gradient(45deg, transparent 24px, #00a86b 24px, #00a86b 28px, transparent 28px),
+      /* 왼다리 */
+      linear-gradient(240deg, transparent 35px, #00a86b 35px, #00a86b 44px, transparent 44px),
+      /* 오른다리 */
+      linear-gradient(-60deg, transparent 35px, #00a86b 35px, #00a86b 44px, transparent 44px);
+    background-position: center 10px, center center, center center, center center, center bottom, center bottom;
+    background-repeat: no-repeat;
+  }
+  
+  /* 달리기 애니메이션 - 스프라이트 프레임 1 */
+  .character-run1 {
+    background: 
+      /* 머리 */
+      radial-gradient(circle at center, #f5f5f5 10px, transparent 10px),
+      /* 몸통 */
+      linear-gradient(to bottom, transparent 20px, #00a86b 20px, #00a86b 35px, transparent 35px),
+      /* 왼팔 */
+      linear-gradient(45deg, transparent 24px, #00a86b 24px, #00a86b 28px, transparent 28px),
+      /* 오른팔 */
+      linear-gradient(135deg, transparent 24px, #00a86b 24px, #00a86b 28px, transparent 28px),
+      /* 왼다리 */
+      linear-gradient(210deg, transparent 35px, #00a86b 35px, #00a86b 44px, transparent 44px),
+      /* 오른다리 */
+      linear-gradient(-30deg, transparent 35px, #00a86b 35px, #00a86b 44px, transparent 44px);
+    background-position: center 10px, center center, center center, center center, center bottom, center bottom;
+    background-repeat: no-repeat;
+  }
+  
+  /* 달리기 애니메이션 - 스프라이트 프레임 2 */
+  .character-run2 {
+    background: 
+      /* 머리 */
+      radial-gradient(circle at center, #f5f5f5 10px, transparent 10px),
+      /* 몸통 */
+      linear-gradient(to bottom, transparent 20px, #00a86b 20px, #00a86b 35px, transparent 35px),
+      /* 왼팔 */
+      linear-gradient(135deg, transparent 24px, #00a86b 24px, #00a86b 28px, transparent 28px),
+      /* 오른팔 */
+      linear-gradient(45deg, transparent 24px, #00a86b 24px, #00a86b 28px, transparent 28px),
+      /* 왼다리 */
+      linear-gradient(270deg, transparent 35px, #00a86b 35px, #00a86b 44px, transparent 44px),
+      /* 오른다리 */
+      linear-gradient(-90deg, transparent 35px, #00a86b 35px, #00a86b 44px, transparent 44px);
+    background-position: center 10px, center center, center center, center center, center bottom, center bottom;
+    background-repeat: no-repeat;
+  }
+  
+  /* 달리기 애니메이션 - 스프라이트 프레임 3 */
+  .character-run3 {
+    background: 
+      /* 머리 */
+      radial-gradient(circle at center, #f5f5f5 10px, transparent 10px),
+      /* 몸통 */
+      linear-gradient(to bottom, transparent 20px, #00a86b 20px, #00a86b 35px, transparent 35px),
+      /* 왼팔 */
+      linear-gradient(225deg, transparent 24px, #00a86b 24px, #00a86b 28px, transparent 28px),
+      /* 오른팔 */
+      linear-gradient(-45deg, transparent 24px, #00a86b 24px, #00a86b 28px, transparent 28px),
+      /* 왼다리 */
+      linear-gradient(330deg, transparent 35px, #00a86b 35px, #00a86b 44px, transparent 44px),
+      /* 오른다리 */
+      linear-gradient(-150deg, transparent 35px, #00a86b 35px, #00a86b 44px, transparent 44px);
+    background-position: center 10px, center center, center center, center center, center bottom, center bottom;
+    background-repeat: no-repeat;
+  }
+  
+  /* 달리기 애니메이션 - 스프라이트 프레임 4 */
+  .character-run4 {
+    background: 
+      /* 머리 */
+      radial-gradient(circle at center, #f5f5f5 10px, transparent 10px),
+      /* 몸통 */
+      linear-gradient(to bottom, transparent 20px, #00a86b 20px, #00a86b 35px, transparent 35px),
+      /* 왼팔 */
+      linear-gradient(-45deg, transparent 24px, #00a86b 24px, #00a86b 28px, transparent 28px),
+      /* 오른팔 */
+      linear-gradient(225deg, transparent 24px, #00a86b 24px, #00a86b 28px, transparent 28px),
+      /* 왼다리 */
+      linear-gradient(30deg, transparent 35px, #00a86b 35px, #00a86b 44px, transparent 44px),
+      /* 오른다리 */
+      linear-gradient(150deg, transparent 35px, #00a86b 35px, #00a86b 44px, transparent 44px);
+    background-position: center 10px, center center, center center, center center, center bottom, center bottom;
+    background-repeat: no-repeat;
+  }
+  
+  /* 정지 애니메이션 */
+  .character-stop {
+    background: 
+      /* 머리 */
+      radial-gradient(circle at center, #f5f5f5 10px, transparent 10px),
+      /* 몸통 */
+      linear-gradient(to bottom, transparent 20px, #00a86b 20px, #00a86b 35px, transparent 35px),
+      /* 왼팔 */
+      linear-gradient(180deg, transparent 24px, #00a86b 24px, #00a86b 32px, transparent 32px),
+      /* 오른팔 */
+      linear-gradient(0deg, transparent 24px, #00a86b 24px, #00a86b 32px, transparent 32px),
+      /* 왼다리 */
+      linear-gradient(270deg, transparent 35px, #00a86b 35px, #00a86b 44px, transparent 44px),
+      /* 오른다리 */
+      linear-gradient(270deg, transparent 35px, #00a86b 35px, #00a86b 44px, transparent 44px);
+    background-position: center 10px, center center, center center, center center, center bottom, center bottom;
+    background-repeat: no-repeat;
+    animation: character-brake 0.3s ease-out forwards;
+  }
+  
+  @keyframes character-brake {
+    0% {
+      transform: skewX(0);
+    }
+    30% {
+      transform: skewX(-20deg);
+    }
+    100% {
+      transform: skewX(0);
+    }
+  }
+  
+  /* 캐릭터 점프 효과 */
+  .character-jump {
+    animation: character-jump 0.5s ease-out;
+  }
+  
+  @keyframes character-jump {
+    0% {
+      transform: translateY(0) scaleY(1);
+    }
+    30% {
+      transform: translateY(-15px) scaleY(1.1);
+    }
+    50% {
+      transform: translateY(-20px) scaleY(0.9);
+    }
+    80% {
+      transform: translateY(-5px) scaleY(1.05);
+    }
+    100% {
+      transform: translateY(0) scaleY(1);
+    }
+  }
+  
+  /* 캐릭터 공격 효과 */
+  .character-attack::after {
+    width: 20px;
+    opacity: 1;
+  }
+  
+  /* 다양한 속도 애니메이션 */
+  .character-anim-normal {
+    animation: run-cycle 0.8s steps(4) infinite;
+  }
+  
+  .character-anim-fast {
+    animation: run-cycle 0.5s steps(4) infinite;
+  }
+  
+  .character-anim-very-fast {
+    animation: run-cycle 0.3s steps(4) infinite;
+  }
+  
+  .character-anim-slow {
+    animation: run-cycle 1.2s steps(4) infinite;
+  }
+  
+  .character-anim-very-slow {
+    animation: run-cycle 1.8s steps(4) infinite;
+  }
+  
+  @keyframes run-cycle {
+    0% {
+      background-image: url("#run1");
+      transform: translateY(0);
+    }
+    25% {
+      background-image: url("#run2");
+      transform: translateY(-2px);
+    }
+    50% {
+      background-image: url("#run3");
+      transform: translateY(0);
+    }
+    75% {
+      background-image: url("#run4");
+      transform: translateY(-2px);
+    }
+    100% {
+      background-image: url("#run1");
+      transform: translateY(0);
+    }
+  }
+  
+  /* 포지션에 따른 캐릭터 색상 변경 */
+  .character-long::before {
+    background-color: rgba(0, 255, 127, 0.2);
+    box-shadow: 0 0 10px 2px rgba(0, 255, 127, 0.7);
+  }
+  
+  .character-short::before {
+    background-color: rgba(255, 62, 77, 0.2);
+    box-shadow: 0 0 10px 2px rgba(255, 62, 77, 0.7);
+  }
+  
+  /* 차트에서 캐릭터 이동 경로 */
+  .character-path {
+    position: absolute;
+    width: 100%;
+    height: 2px;
+    background: linear-gradient(90deg, 
+      rgba(255, 255, 255, 0.1), 
+      rgba(255, 255, 255, 0.2), 
+      rgba(255, 255, 255, 0.1));
+    bottom: 20%;
+    opacity: 0.3;
+    pointer-events: none;
+  }
+  
+  /* 사이버펑크 효과 */
+  .cyber-glow {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    top: 0;
+    left: 0;
+    background: radial-gradient(circle at center, currentColor 0%, transparent 70%);
+    opacity: 0;
+    filter: blur(5px);
+    animation: cyber-glow 2s ease-in-out infinite;
+  }
+  
+  @keyframes cyber-glow {
+    0% {
+      opacity: 0.2;
+      transform: scale(0.8);
+    }
+    50% {
+      opacity: 0.4;
+      transform: scale(1.2);
+    }
+    100% {
+      opacity: 0.2;
+      transform: scale(0.8);
+    }
+  }
