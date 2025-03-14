@@ -7,7 +7,7 @@ namespace fomogeddon.model
 {
     public class StepResult
     {
-          public long Time { get; set; }
+        public long Time { get; set; }
         public double Price { get; set; }
         public double PercentChange { get; set; }
         public bool IsEventActive { get; set; }

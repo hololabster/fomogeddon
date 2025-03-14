@@ -23,8 +23,20 @@
   color: #ff3e4d; /* Red */
 }
 
+.trade-effect-5xlong {
+  color: #11eefe; /* Neon Blue */
+}
+
+.trade-effect-5xshort {
+  color: #f9381e; /* Neon Orange */
+}
+
 .trade-effect-close {
   color: #ffcc00; /* Yellow for close position */
+}
+
+.trade-effect-liquidation {
+  color: #898989;
 }
 
 @keyframes trade-effect-anim {
@@ -61,7 +73,7 @@
   display: flex;
   align-items: center;
   gap: 0.5rem;
-  box-shadow: 0 0 15px rgba(0,0,0,0.5);
+  box-shadow: 0 0 15px rgba(0, 0, 0, 0.5);
 }
 
 .price-alert-up {
@@ -106,7 +118,11 @@
   left: 0;
   width: 100%;
   height: 100%;
-  background: linear-gradient(45deg, rgba(255, 204, 0, 0.1), rgba(255, 0, 0, 0.1));
+  background: linear-gradient(
+    45deg,
+    rgba(255, 204, 0, 0.1),
+    rgba(255, 0, 0, 0.1)
+  );
   z-index: 900;
   pointer-events: none;
   animation: event-alert-anim 1s forwards;
@@ -309,7 +325,7 @@
 }
 
 .btn::after {
-  content: '';
+  content: "";
   position: absolute;
   top: 50%;
   left: 50%;
@@ -418,6 +434,14 @@
 
 .history-action-short {
   color: #ff3e4d;
+}
+
+.history-action-5XLong {
+  color: #11eefe;
+}
+
+.history-action-5XShort {
+  color: #f9381e;
 }
 
 .history-details {

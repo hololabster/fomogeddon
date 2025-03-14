@@ -1,0 +1,71 @@
+.leaderboard-content {
+  margin: 0 auto;
+  padding: 20px 0;
+  max-width: 1200px;
+  width: calc(100vw - 40px);
+}
+.leaderboard-content .toggle-container{
+  display: flex;
+  justify-content: right;
+}
+.leaderboard-content .rank-wrap {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(380px ,1fr));
+  grid-auto-rows: auto;
+  gap: 20px;
+  margin: 40px 0;
+}
+.leaderboard-content .rank-wrap.overall{
+  display: block;
+}
+.leaderboard-content .table-container h4 {
+  font-size: 20px;
+  text-align: center;
+}
+.leaderboard-content .table-container {
+  position: relative;
+  padding: 20px 14px;
+  border-radius: 8px !important;
+  border: 1px solid rgba(0, 179, 255, 0.6) !important;
+  border-top: none !important;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2) !important;
+  overflow: hidden;
+}
+.leaderboard-content .table-container::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 6px;
+  background: linear-gradient(90deg, var(--neon-blue), var(--neon-purple));
+}
+.table-container .cyber-table {
+  width: 100%;
+  text-align: center;
+  border-collapse: collapse;
+}
+.table-container .cyber-table tr {
+  padding: 4px;
+}
+.table-container .cyber-table .user-cell {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+}
+.table-container .current-user-row {
+  background-color: rgba(0, 179, 255, 0.7);
+}
+.table-container .current-user-row .user-cell {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+}
+.table-container .current-user-row .user-cell .you-badge {
+  font-size: 16px;
+  font-weight: 700;
+  margin-bottom: 0;
+}

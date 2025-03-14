@@ -1,0 +1,310 @@
+--
+-- PostgreSQL database dump
+--
+
+-- Dumped from database version 14.15 (Homebrew)
+-- Dumped by pg_dump version 17.4
+
+-- Started on 2025-03-13 10:21:52 KST
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET transaction_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+DROP DATABASE fomogeddon;
+--
+-- TOC entry 3695 (class 1262 OID 20916)
+-- Name: fomogeddon; Type: DATABASE; Schema: -; Owner: fomogeddon
+--
+
+CREATE DATABASE fomogeddon WITH TEMPLATE = template0 ENCODING = 'UTF8' LOCALE_PROVIDER = libc LOCALE = 'C';
+
+
+ALTER DATABASE fomogeddon OWNER TO fomogeddon;
+
+\connect fomogeddon
+
+SET statement_timeout = 0;
+SET lock_timeout = 0;
+SET idle_in_transaction_session_timeout = 0;
+SET transaction_timeout = 0;
+SET client_encoding = 'UTF8';
+SET standard_conforming_strings = on;
+SELECT pg_catalog.set_config('search_path', '', false);
+SET check_function_bodies = false;
+SET xmloption = content;
+SET client_min_messages = warning;
+SET row_security = off;
+
+--
+-- TOC entry 4 (class 2615 OID 2200)
+-- Name: public; Type: SCHEMA; Schema: -; Owner: gwonjaehyeon
+--
+
+-- *not* creating schema, since initdb creates it
+
+
+ALTER SCHEMA public OWNER TO gwonjaehyeon;
+
+SET default_tablespace = '';
+
+SET default_table_access_method = heap;
+
+--
+-- TOC entry 212 (class 1259 OID 29167)
+-- Name: Event; Type: TABLE; Schema: public; Owner: fomogeddon
+--
+
+CREATE TABLE public."Event" (
+    event_id bigint NOT NULL,
+    origin_scenario_id bigint NOT NULL,
+    event_name "char",
+    "desc" "char",
+    event_desc "char",
+    event_impact_min bigint,
+    "event_Duration" bigint,
+    event_impact_max bigint
+);
+
+
+ALTER TABLE public."Event" OWNER TO fomogeddon;
+
+--
+-- TOC entry 211 (class 1259 OID 29155)
+-- Name: ScenarioPlayData; Type: TABLE; Schema: public; Owner: fomogeddon
+--
+
+CREATE TABLE public."ScenarioPlayData" (
+    origin_scenario_id bigint,
+    origin_scenario_title character(1),
+    origin_chart_data jsonb,
+    custom_chart_data jsonb,
+    balance double precision,
+    created_at date,
+    player_wallet_address text,
+    custom_scenario_id integer NOT NULL
+);
+
+
+ALTER TABLE public."ScenarioPlayData" OWNER TO fomogeddon;
+
+--
+-- TOC entry 214 (class 1259 OID 29213)
+-- Name: ScenarioPlayData_custom_scenario_id_seq; Type: SEQUENCE; Schema: public; Owner: fomogeddon
+--
+
+CREATE SEQUENCE public."ScenarioPlayData_custom_scenario_id_seq"
+    AS integer
+    START WITH 1
+    INCREMENT BY 1
+    NO MINVALUE
+    NO MAXVALUE
+    CACHE 1;
+
+
+ALTER SEQUENCE public."ScenarioPlayData_custom_scenario_id_seq" OWNER TO fomogeddon;
+
+--
+-- TOC entry 3697 (class 0 OID 0)
+-- Dependencies: 214
+-- Name: ScenarioPlayData_custom_scenario_id_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: fomogeddon
+--
+
+ALTER SEQUENCE public."ScenarioPlayData_custom_scenario_id_seq" OWNED BY public."ScenarioPlayData".custom_scenario_id;
+
+
+--
+-- TOC entry 210 (class 1259 OID 29134)
+-- Name: origin_scenario; Type: TABLE; Schema: public; Owner: fomogeddon
+--
+
+CREATE TABLE public.origin_scenario (
+    origin_scenario_id bigint NOT NULL,
+    origin_scenario_title "char"[],
+    origin_chart_data jsonb,
+    created_at date
+);
+
+
+ALTER TABLE public.origin_scenario OWNER TO fomogeddon;
+
+--
+-- TOC entry 209 (class 1259 OID 29129)
+-- Name: play_user; Type: TABLE; Schema: public; Owner: fomogeddon
+--
+
+CREATE TABLE public.play_user (
+    wallet_address bigint NOT NULL,
+    created_at date
+);
+
+
+ALTER TABLE public.play_user OWNER TO fomogeddon;
+
+--
+-- TOC entry 213 (class 1259 OID 29191)
+-- Name: trade_history; Type: TABLE; Schema: public; Owner: fomogeddon
+--
+
+CREATE TABLE public.trade_history (
+    custom_sinario_id bigint NOT NULL,
+    price bigint,
+    amount bigint,
+    desp "char",
+    "time" "char",
+    chart_point jsonb NOT NULL,
+    "position" "char",
+    user_wallet_address bigint
+);
+
+
+ALTER TABLE public.trade_history OWNER TO fomogeddon;
+
+--
+-- TOC entry 3532 (class 2604 OID 29214)
+-- Name: ScenarioPlayData custom_scenario_id; Type: DEFAULT; Schema: public; Owner: fomogeddon
+--
+
+ALTER TABLE ONLY public."ScenarioPlayData" ALTER COLUMN custom_scenario_id SET DEFAULT nextval('public."ScenarioPlayData_custom_scenario_id_seq"'::regclass);
+
+
+--
+-- TOC entry 3687 (class 0 OID 29167)
+-- Dependencies: 212
+-- Data for Name: Event; Type: TABLE DATA; Schema: public; Owner: fomogeddon
+--
+
+
+
+--
+-- TOC entry 3686 (class 0 OID 29155)
+-- Dependencies: 211
+-- Data for Name: ScenarioPlayData; Type: TABLE DATA; Schema: public; Owner: fomogeddon
+--
+
+INSERT INTO public."ScenarioPlayData" (origin_scenario_id, origin_scenario_title, origin_chart_data, custom_chart_data, balance, created_at, player_wallet_address, custom_scenario_id) VALUES (0, '0', NULL, '{"1231": 10, "3123": 20}', 3210.03, '2025-03-13', 's', 3);
+INSERT INTO public."ScenarioPlayData" (origin_scenario_id, origin_scenario_title, origin_chart_data, custom_chart_data, balance, created_at, player_wallet_address, custom_scenario_id) VALUES (0, '0', NULL, '{"1231": 10, "3123": 20}', 33120.03, '2025-03-13', 's', 4);
+INSERT INTO public."ScenarioPlayData" (origin_scenario_id, origin_scenario_title, origin_chart_data, custom_chart_data, balance, created_at, player_wallet_address, custom_scenario_id) VALUES (0, '0', NULL, '{"1231": 10, "3123": 20}', 453210.03, '2025-03-13', 'd', 5);
+INSERT INTO public."ScenarioPlayData" (origin_scenario_id, origin_scenario_title, origin_chart_data, custom_chart_data, balance, created_at, player_wallet_address, custom_scenario_id) VALUES (0, '0', NULL, '{"1231": 10, "3123": 20}', 40.03, '2025-03-13', 'd', 6);
+
+
+--
+-- TOC entry 3685 (class 0 OID 29134)
+-- Dependencies: 210
+-- Data for Name: origin_scenario; Type: TABLE DATA; Schema: public; Owner: fomogeddon
+--
+
+
+
+--
+-- TOC entry 3684 (class 0 OID 29129)
+-- Dependencies: 209
+-- Data for Name: play_user; Type: TABLE DATA; Schema: public; Owner: fomogeddon
+--
+
+
+
+--
+-- TOC entry 3688 (class 0 OID 29191)
+-- Dependencies: 213
+-- Data for Name: trade_history; Type: TABLE DATA; Schema: public; Owner: fomogeddon
+--
+
+
+
+--
+-- TOC entry 3698 (class 0 OID 0)
+-- Dependencies: 214
+-- Name: ScenarioPlayData_custom_scenario_id_seq; Type: SEQUENCE SET; Schema: public; Owner: fomogeddon
+--
+
+SELECT pg_catalog.setval('public."ScenarioPlayData_custom_scenario_id_seq"', 6, true);
+
+
+--
+-- TOC entry 3538 (class 2606 OID 29221)
+-- Name: ScenarioPlayData ScenarioPlayData_pkey; Type: CONSTRAINT; Schema: public; Owner: fomogeddon
+--
+
+ALTER TABLE ONLY public."ScenarioPlayData"
+    ADD CONSTRAINT "ScenarioPlayData_pkey" PRIMARY KEY (custom_scenario_id);
+
+
+--
+-- TOC entry 3540 (class 2606 OID 29171)
+-- Name: Event event_pk; Type: CONSTRAINT; Schema: public; Owner: fomogeddon
+--
+
+ALTER TABLE ONLY public."Event"
+    ADD CONSTRAINT event_pk PRIMARY KEY (event_id, origin_scenario_id);
+
+
+--
+-- TOC entry 3536 (class 2606 OID 29140)
+-- Name: origin_scenario origin_sinario_pk; Type: CONSTRAINT; Schema: public; Owner: fomogeddon
+--
+
+ALTER TABLE ONLY public.origin_scenario
+    ADD CONSTRAINT origin_sinario_pk PRIMARY KEY (origin_scenario_id);
+
+
+--
+-- TOC entry 3534 (class 2606 OID 29133)
+-- Name: play_user player_pkey; Type: CONSTRAINT; Schema: public; Owner: fomogeddon
+--
+
+ALTER TABLE ONLY public.play_user
+    ADD CONSTRAINT player_pkey PRIMARY KEY (wallet_address);
+
+
+--
+-- TOC entry 3542 (class 2606 OID 29197)
+-- Name: trade_history trade_history_pk; Type: CONSTRAINT; Schema: public; Owner: fomogeddon
+--
+
+ALTER TABLE ONLY public.trade_history
+    ADD CONSTRAINT trade_history_pk PRIMARY KEY (custom_sinario_id, chart_point);
+
+
+--
+-- TOC entry 3543 (class 2606 OID 29172)
+-- Name: Event origin_sinario_id_fk; Type: FK CONSTRAINT; Schema: public; Owner: fomogeddon
+--
+
+ALTER TABLE ONLY public."Event"
+    ADD CONSTRAINT origin_sinario_id_fk FOREIGN KEY (origin_scenario_id) REFERENCES public.origin_scenario(origin_scenario_id);
+
+
+--
+-- TOC entry 3544 (class 2606 OID 29198)
+-- Name: trade_history trade_hitory_play_user_pk; Type: FK CONSTRAINT; Schema: public; Owner: fomogeddon
+--
+
+ALTER TABLE ONLY public.trade_history
+    ADD CONSTRAINT trade_hitory_play_user_pk FOREIGN KEY (user_wallet_address) REFERENCES public.play_user(wallet_address);
+
+
+--
+-- TOC entry 3696 (class 0 OID 0)
+-- Dependencies: 4
+-- Name: SCHEMA public; Type: ACL; Schema: -; Owner: gwonjaehyeon
+--
+
+REVOKE USAGE ON SCHEMA public FROM PUBLIC;
+GRANT ALL ON SCHEMA public TO PUBLIC;
+
+
+-- Completed on 2025-03-13 10:21:52 KST
+
+--
+-- PostgreSQL database dump complete
+--
+

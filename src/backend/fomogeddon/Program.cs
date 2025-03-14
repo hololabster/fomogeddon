@@ -1,72 +1,49 @@
-using fomogeddon;
-using fomogeddon.model;
+using fomogeddon.Service; // IChartService, ChartService가 포함된 네임스페이스
+using Microsoft.AspNetCore.Builder;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
+using fomogeddon.Data;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+// appsettings.json에 정의된 PostgreSQL 연결 문자열 사용
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection");
+
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseNpgsql(connectionString));
+
+// CORS 정책 추가
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowSpecificOrigins",
+        policy =>
+        {
+            policy.WithOrigins(
+                    "https://fomogeddon.playarts.ai",
+                    "http://localhost:9999"
+                )
+                .AllowAnyHeader()
+                .AllowAnyMethod()
+                .AllowCredentials();
+        });
+});
+
+// 컨트롤러 등록
+builder.Services.AddControllers();
+
+// ChartService만 DI에 등록 (SimulatorEngine은 내부에서 직접 생성)
+builder.Services.AddScoped<IChartService, ChartService>();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+app.UseRouting();
 
-app.UseHttpsRedirection();
+// CORS 미들웨어 추가 (UseRouting 다음, UseAuthorization 전에 위치)
+app.UseCors("AllowSpecificOrigins");
 
-var summaries = new[]
-{
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
+app.UseAuthorization();
 
-app.MapGet("/weatherforecast", () =>
-{
-    var forecast =  Enumerable.Range(1, 5).Select(index =>
-        new WeatherForecast
-        (
-            DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-            Random.Shared.Next(-20, 55),
-            summaries[Random.Shared.Next(summaries.Length)]
-        ))
-        .ToArray();
-
-       // 예제 시나리오 설정
-            Scenario scenario = new Scenario
-            {
-                Name = "Market Shock",
-                EventDescription = "A sudden market event causing volatility.",
-                EventDuration = 10, // 기본 이벤트 지속 시간
-                EventImpact = new ImpactRange { Min = -2.0, Max = 2.0 }
-            };
-
-            // 초기 가격 100, 시나리오 적용하여 엔진 생성
-            SimulatorEngine engine = new SimulatorEngine(100.0, scenario);
-
-            // 시뮬레이션 속도: 500ms 간격 (원하는 값으로 변경 가능)
-            SimulatorRunner runner = new SimulatorRunner(engine, 500);
-
-            // 시뮬레이션 시작
-            runner.StartSimulation();
-
-            Console.WriteLine("Simulation started. Press any key to exit.");
-            Console.ReadKey();
-
-            // 종료 시 시뮬레이션 중단
-            runner.StopSimulation();
-
-    return forecast;
-})
-.WithName("GetWeatherForecast")
-.WithOpenApi();
+app.MapControllers();
 
 app.Run();
-
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}

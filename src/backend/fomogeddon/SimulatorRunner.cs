@@ -1,149 +1,119 @@
 using System;
 using System.Collections.Generic;
-using System.Linq;
+using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 
 namespace fomogeddon.model
 {
-
-    // SimulatorRunner 클래스: 시뮬레이션 실행 및 UI(콘솔) 업데이트 처리
     public class SimulatorRunner
     {
-        private SimulatorEngine simulator;
-        private Timer simulationTimer;
-        private int simulationSpeed; // ms 단위
-        private bool isSimulationRunning;
-        private bool isGameComplete;
-        private double currentPrice;
-        private double previousPrice;
-        private double percentChange;
-        private double gameProgress;
-        private List<HistoryPoint> chartData;
-        private EventInfo eventInfo;
-        private string notificationMessage;
-        private string notificationType;
-        private double pnl;
-        private string position; // 예: "neutral", "long", "short"
-        private double entryPrice;
-        private user_wallet wallet;
-        private List<HistoryPoint> btcOnChainData; // 온체인 데이터 (필요 시)
+        private readonly SimulatorEngine _simulator;
+        private readonly int _simulationSpeedMs;
+        private bool _isGameComplete;
+        private double _currentPrice;
+        private double _previousPrice;
+        private double _percentChange;
+        private double _gameProgress;
+        private List<HistoryPoint> _chartData;
+        private EventInfo _eventInfo;
+        private string _notificationMessage;
+        private string _notificationType;
+        private double _pnl;
+        private string _position;
+        private double _entryPrice;
+        private user_wallet _wallet;
+        private List<HistoryPoint> _btcOnChainData;
 
-        public SimulatorRunner(SimulatorEngine engine, int simSpeed)
+        private TaskCompletionSource<string> _simulationCompletionSource;
+        private CancellationTokenSource _cancellationTokenSource;
+
+        public SimulatorRunner(SimulatorEngine simulator, int simulationSpeedMs)
         {
-            simulator = engine;
-            simulationSpeed = simSpeed;
-            isSimulationRunning = false;
-            isGameComplete = false;
-            chartData = new List<HistoryPoint>();
-            position = "neutral"; // 초기 포지션
-            wallet = new user_wallet { Bitcoin = 1.0 }; // 예시: 1 비트코인 보유
-            // btcOnChainData는 외부 데이터로 채워질 수 있음
+            _simulator = simulator ?? throw new ArgumentNullException(nameof(simulator));
+            _simulationSpeedMs = simulationSpeedMs;
+            _isGameComplete = false;
+            _chartData = new List<HistoryPoint>();
+            _position = "neutral";
+            _wallet = new user_wallet { Bitcoin = 1.0 };
+            _cancellationTokenSource = new CancellationTokenSource();
         }
 
-        public void StartSimulation()
+        public async Task<string> StartSimulationAsync()
         {
-            if (simulator == null) return;
+            if (_simulator == null)
+                return string.Empty;
 
-            isSimulationRunning = true;
+            _simulationCompletionSource = new TaskCompletionSource<string>();
+            _isGameComplete = false;
 
-            // 디지털 사운드 효과 재생 ("start")
-            PlayDigitalSound("start");
+            // 시뮬레이션 시작 (비동기 루프)
+            await RunSimulationLoopAsync(_cancellationTokenSource.Token);
 
-            // 디지털 노이즈 효과 추가
-            AddDigitalNoiseEffect();
-
-            // 게임 완료 상태 초기화
-            isGameComplete = false;
-
-            // 타이머를 사용하여 일정 간격마다 시뮬레이션 스텝 실행
-            simulationTimer = new Timer(SimulationCallback, null, 0, simulationSpeed);
+            return await _simulationCompletionSource.Task;
         }
 
-        private void SimulationCallback(object state)
+        private async Task RunSimulationLoopAsync(CancellationToken cancellationToken)
         {
-            if (simulator != null)
+            int parallelTasks = Environment.ProcessorCount; // CPU 개수만큼 병렬 실행
+            List<Task> simulationTasks = new List<Task>();
+
+            for (int i = 0; i < parallelTasks; i++)
             {
-                // 이전 가격 저장
-                previousPrice = currentPrice;
-
-                // 게임 완료 여부 확인
-                if (simulator.IsGameComplete())
+                simulationTasks.Add(Task.Run(() =>
                 {
-                    isGameComplete = true;
-                    StopSimulation();
-                    SetNotification($"Simulation complete! Final P&L: ${pnl:F2}", pnl >= 0 ? "success" : "warning");
+                    while (!_simulator.IsGameComplete() && !cancellationToken.IsCancellationRequested)
+                    {
+                        _previousPrice = _currentPrice;
 
-                    // 5초 후 알림 지우기 (비동기로 처리)
-                    Task.Delay(5000).ContinueWith(t => ClearNotification());
-                    return;
-                }
+                        StepResult result = _simulator.Step(_btcOnChainData); // Step()이 내부적으로 lock을 사용
 
-                // 시뮬레이터 스텝 실행 (온체인 데이터가 있다면 전달)
-                StepResult result = simulator.Step(btcOnChainData);
+                        _currentPrice = result.Price;
+                        _percentChange = result.PercentChange;
+                        _gameProgress = _simulator.GetGameProgress();
+                        _chartData = _simulator.GetHistory(); // GetHistory()가 내부적으로 lock을 사용
+                        _eventInfo = _simulator.GetEventInfo();
 
-                // 결과 업데이트
-                currentPrice = result.Price;
-                percentChange = result.PercentChange;
-                gameProgress = simulator.GetGameProgress();
+                        UpdatePriceDisplay(result.Price, _previousPrice);
+                        if (Math.Abs(result.PercentChange) >= 0.5)
+                        {
+                            TriggerPriceAlert(result.PercentChange > 0 ? "up" : "down", result.PercentChange);
+                        }
 
-                // 차트 데이터를 최신 히스토리로 업데이트
-                chartData = simulator.GetHistory();
+                        if (_eventInfo != null && _eventInfo.IsActive && _eventInfo.Progress == 1)
+                        {
+                            TriggerEventAlert();
+                        }
 
-                // 가격 변동에 따른 시각 효과 업데이트
-                UpdatePriceDisplay(result.Price, previousPrice);
-
-                // 이벤트 정보 업데이트
-                eventInfo = simulator.GetEventInfo();
-
-                // 큰 가격 변화에 대해 알림 (변동률 0.5 이상)
-                if (Math.Abs(result.PercentChange) >= 0.5)
-                {
-                    string alertType = result.PercentChange > 0 ? "up" : "down";
-                    TriggerPriceAlert(alertType, result.PercentChange);
-                    AddMatrixCodeRainEffect(alertType == "up" ? "#00ff7f" : "#ff3e4d");
-                }
-
-                // 이벤트 시작 시 알림 및 효과
-                if (eventInfo != null && eventInfo.IsActive && eventInfo.Progress == 1)
-                {
-                    PlayDigitalSound("alert");
-                    SetGlitchEffect(true);
-                    Task.Delay(1500).ContinueWith(t => SetGlitchEffect(false));
-                    TriggerEventAlert();
-                    AddEMPWaveEffect("#ffcc00");
-                    SetNotification($"{eventInfo.Name} event triggered: {eventInfo.Description}", "warning");
-                    Task.Delay(5000).ContinueWith(t => ClearNotification());
-                }
-
-                // 포지션이 있을 경우 PnL 계산
-                if (position != "neutral")
-                {
-                    double positionPnl = CalculatePnL(position, entryPrice, result.Price, wallet.Bitcoin);
-                    pnl = positionPnl;
-                }
+                        if (_position != "neutral")
+                        {
+                            _pnl = CalculatePnL(_position, _entryPrice, result.Price, _wallet.Bitcoin);
+                        }
+                    }
+                }, cancellationToken));
             }
+            // 모든 작업이 끝날 때까지 대기
+            await Task.WhenAll(simulationTasks);
+
+            CompleteSimulation();
+        }
+
+        private void CompleteSimulation()
+        {
+            _isGameComplete = true;
+            SetNotification($"Simulation complete! Final P&L: ${_pnl:F2}", _pnl >= 0 ? "success" : "warning");
+
+            // 5초 후 알림 삭제
+            Task.Delay(5000).ContinueWith(_ => ClearNotification());
+
+            //ㅍJSON 형식의 차트 데이터 반환
+            string jsonData = JsonSerializer.Serialize(_chartData);
+            _simulationCompletionSource?.SetResult(jsonData);
         }
 
         public void StopSimulation()
         {
-            isSimulationRunning = false;
-            if (simulationTimer != null)
-            {
-                simulationTimer.Dispose();
-                simulationTimer = null;
-            }
-        }
-
-        // 아래는 효과 및 상태 업데이트를 위한 스텁 메서드들입니다.
-        private void PlayDigitalSound(string soundType)
-        {
-            Console.WriteLine($"Playing digital sound: {soundType}");
-        }
-
-        private void AddDigitalNoiseEffect()
-        {
-            Console.WriteLine("Adding digital noise effect.");
+            _cancellationTokenSource.Cancel();
         }
 
         private void UpdatePriceDisplay(double newPrice, double oldPrice)
@@ -156,43 +126,27 @@ namespace fomogeddon.model
             Console.WriteLine($"Triggering price alert: {alertType}, Change: {percentChange:F2}%");
         }
 
-        private void AddMatrixCodeRainEffect(string color)
-        {
-            Console.WriteLine($"Adding matrix code rain effect with color {color}");
-        }
-
-        private void SetGlitchEffect(bool isActive)
-        {
-            Console.WriteLine($"Glitch effect is now {(isActive ? "active" : "inactive")}");
-        }
-
         private void TriggerEventAlert()
         {
             Console.WriteLine("Event alert triggered!");
         }
 
-        private void AddEMPWaveEffect(string color)
-        {
-            Console.WriteLine($"Adding EMP wave effect with color {color}");
-        }
-
         private void SetNotification(string message, string type)
         {
-            notificationMessage = message;
-            notificationType = type;
+            _notificationMessage = message;
+            _notificationType = type;
             Console.WriteLine($"Notification: {message} ({type})");
         }
 
         private void ClearNotification()
         {
-            notificationMessage = null;
-            notificationType = null;
+            _notificationMessage = null;
+            _notificationType = null;
             Console.WriteLine("Notification cleared.");
         }
 
         private double CalculatePnL(string position, double entryPrice, double currentPrice, double bitcoin)
         {
-            // 단순 계산 예시: 포지션에 따라 가격 차이에 비트코인 수량 곱셈
             return (currentPrice - entryPrice) * bitcoin * (position == "long" ? 1 : -1);
         }
     }

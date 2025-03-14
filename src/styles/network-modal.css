@@ -1,0 +1,443 @@
+/* src/styles/networkModal.css */
+
+/* Modal Container */
+.network-modal-overlay {
+  position: fixed;
+  inset: 0; /* shorthand for top, right, bottom, left */
+  z-index: 9999; /* Highest z-index to ensure it's above everything */
+  background-color: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(5px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: modal-fade-in 0.3s ease forwards;
+}
+
+/* Modal Card */
+.network-modal-card {
+  width: 100%;
+  max-width: 440px;
+  background-color: rgba(13, 17, 41, 0.85);
+  border: 2px solid #00b3ff;
+  border-radius: 8px;
+  box-shadow: 0 0 25px rgba(0, 179, 255, 0.4),
+    inset 0 0 15px rgba(0, 179, 255, 0.2);
+  padding: 1.5rem;
+  position: relative;
+  overflow: hidden;
+  animation: card-slide-up 0.4s cubic-bezier(0.19, 1, 0.22, 1) forwards;
+}
+
+/* Cyberpunk Corner Accents */
+.network-modal-card::before,
+.network-modal-card::after {
+  content: "";
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  pointer-events: none;
+}
+
+.network-modal-card::before {
+  top: 0;
+  left: 0;
+  border-top: 3px solid #00ffdd;
+  border-left: 3px solid #00ffdd;
+}
+
+.network-modal-card::after {
+  bottom: 0;
+  right: 0;
+  border-bottom: 3px solid #00ffdd;
+  border-right: 3px solid #00ffdd;
+}
+
+/* Header Styling */
+.network-modal-header {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+.network-modal-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #00ffdd;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 0.5rem;
+  text-shadow: 0 0 10px rgba(0, 255, 221, 0.5);
+  position: relative !important;
+  transform: none !important;
+}
+
+.network-modal-alert {
+  margin: 0.75rem 0;
+  padding: 0.75rem;
+  background-color: rgba(255, 62, 77, 0.15);
+  border: 1px solid rgba(255, 62, 77, 0.3);
+  border-radius: 4px;
+  color: #ff3e4d;
+  font-size: 0.875rem;
+  text-align: center;
+  animation: pulse-alert 2s infinite alternate;
+}
+
+/* Network Details Panel */
+.network-details-panel {
+  background-color: rgba(0, 179, 255, 0.1);
+  border: 1px solid rgba(0, 179, 255, 0.2);
+  border-radius: 6px;
+  padding: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.network-details-title {
+  font-weight: 700;
+  font-size: 1rem;
+  color: #00ffdd;
+  margin-bottom: 0.75rem;
+}
+
+.network-detail-row {
+  display: flex;
+  margin-bottom: 0.5rem;
+  font-size: 0.875rem;
+}
+
+.network-detail-label {
+  color: rgba(255, 255, 255, 0.5);
+  width: 100px;
+  flex-shrink: 0;
+}
+
+.network-detail-value {
+  color: white;
+  word-break: break-all;
+}
+
+.copy-button {
+  margin-top: 0.5rem;
+  background-color: rgba(0, 179, 255, 0.2);
+  color: #00ffdd;
+  font-size: 0.75rem;
+  padding: 0.25rem 0.75rem;
+  border-radius: 4px;
+  border: 1px solid rgba(0, 179, 255, 0.3);
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.copy-button:hover {
+  background-color: rgba(0, 179, 255, 0.3);
+  box-shadow: 0 0 10px rgba(0, 179, 255, 0.3);
+}
+
+/* Action Buttons */
+.switch-button {
+  width: 100%;
+  padding: 0.875rem;
+  background-color: rgba(0, 179, 255, 0.2);
+  color: white;
+  border: 1px solid rgba(0, 179, 255, 0.5);
+  border-radius: 6px;
+  font-weight: 600;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 0.75rem;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.switch-button::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(0, 255, 221, 0.2),
+    transparent
+  );
+  transition: 0.5s;
+  z-index: -1;
+}
+
+.switch-button:hover::before {
+  left: 100%;
+}
+
+.switch-button:hover {
+  background-color: rgba(0, 179, 255, 0.3);
+  box-shadow: 0 0 15px rgba(0, 179, 255, 0.4);
+  border-color: rgba(0, 179, 255, 0.7);
+}
+
+.switch-button:disabled {
+  opacity: 0.7;
+  cursor: not-allowed;
+}
+
+.switch-button-content {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.spinner {
+  animation: spin 1.5s linear infinite;
+  margin-right: 0.5rem;
+}
+
+/* Error message */
+.error-message {
+  color: #ff3e4d;
+  font-size: 0.875rem;
+  margin-top: 0.5rem;
+  text-align: center;
+}
+
+.success-message {
+  color: #00ffa3;
+  font-size: 0.875rem;
+  margin-top: 0.5rem;
+  text-align: center;
+}
+
+.footer-text {
+  margin-top: 1rem;
+  color: rgba(255, 255, 255, 0.5);
+  font-size: 0.75rem;
+  text-align: center;
+}
+
+/* Digital glitch effect */
+.digital-glitch {
+  position: relative;
+}
+
+.digital-glitch::before,
+.digital-glitch::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  opacity: 0.8;
+}
+
+.digital-glitch::before {
+  color: #00ffa3;
+  z-index: -1;
+  animation: glitch-anim 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+  animation-delay: 0.3s;
+}
+
+.digital-glitch::after {
+  color: #ff3e4d;
+  z-index: -2;
+  animation: glitch-anim2 0.5s cubic-bezier(0.25, 0.46, 0.45, 0.94) both;
+  animation-delay: 0.15s;
+}
+
+/* Circuit board background pattern */
+.circuit-pattern {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  opacity: 0.05;
+  background-image: linear-gradient(
+      to right,
+      rgba(0, 255, 221, 0.5) 1px,
+      transparent 1px
+    ),
+    linear-gradient(to bottom, rgba(0, 255, 221, 0.5) 1px, transparent 1px);
+  background-size: 20px 20px;
+  z-index: -1;
+}
+
+/* Data lines animation */
+.data-line {
+  position: absolute;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, #00ffdd, transparent);
+  animation: data-line-move 3s linear infinite;
+  opacity: 0.3;
+}
+
+.data-line:nth-child(1) {
+  top: 20%;
+  width: 60%;
+  left: 20%;
+  animation-delay: 0s;
+}
+
+.data-line:nth-child(2) {
+  top: 40%;
+  width: 40%;
+  left: 30%;
+  animation-delay: 0.5s;
+}
+
+.data-line:nth-child(3) {
+  top: 60%;
+  width: 70%;
+  left: 15%;
+  animation-delay: 1s;
+}
+
+.data-line:nth-child(4) {
+  top: 80%;
+  width: 50%;
+  left: 25%;
+  animation-delay: 1.5s;
+}
+
+/* Animations */
+@keyframes modal-fade-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes card-slide-up {
+  from {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+@keyframes pulse-alert {
+  from {
+    opacity: 0.7;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes data-line-move {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes glitch-anim {
+  0% {
+    transform: translate(0);
+  }
+  10% {
+    transform: translate(-2px, 2px);
+  }
+  20% {
+    transform: translate(-2px, -2px);
+  }
+  30% {
+    transform: translate(2px, 2px);
+  }
+  40% {
+    transform: translate(2px, -2px);
+  }
+  50% {
+    transform: translate(-2px, 2px);
+  }
+  60% {
+    transform: translate(-2px, -2px);
+  }
+  70% {
+    transform: translate(2px, 2px);
+  }
+  80% {
+    transform: translate(-2px, -2px);
+  }
+  90% {
+    transform: translate(2px, 2px);
+  }
+  100% {
+    transform: translate(0);
+  }
+}
+
+@keyframes glitch-anim2 {
+  0% {
+    transform: translate(0);
+  }
+  10% {
+    transform: translate(2px, -2px);
+  }
+  20% {
+    transform: translate(-2px, 2px);
+  }
+  30% {
+    transform: translate(2px, -2px);
+  }
+  40% {
+    transform: translate(-2px, 2px);
+  }
+  50% {
+    transform: translate(2px, -2px);
+  }
+  60% {
+    transform: translate(2px, 2px);
+  }
+  70% {
+    transform: translate(2px, -2px);
+  }
+  80% {
+    transform: translate(-2px, 2px);
+  }
+  90% {
+    transform: translate(2px, 2px);
+  }
+  100% {
+    transform: translate(0);
+  }
+}
+
+/* Responsive Adjustments */
+@media (max-width: 480px) {
+  .network-modal-card {
+    max-width: 95%;
+    padding: 1rem;
+  }
+
+  .network-modal-title {
+    font-size: 1.5rem;
+  }
+
+  .network-details-panel {
+    padding: 0.75rem;
+  }
+
+  .network-detail-label {
+    width: 80px;
+  }
+}

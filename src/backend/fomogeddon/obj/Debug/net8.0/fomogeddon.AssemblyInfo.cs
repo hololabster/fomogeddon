@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("fomogeddon")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+0b22e9f9fd0944a74d0c2e73af25838ab2b088e1")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+73adb5a350a98422851df9583b3610260001e2a2")]
 [assembly: System.Reflection.AssemblyProductAttribute("fomogeddon")]
 [assembly: System.Reflection.AssemblyTitleAttribute("fomogeddon")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

@@ -2,406 +2,466 @@
 
 /* Cyberpunk Color Variables */
 :root {
-    --neon-blue: #0ff;
-    --neon-pink: #ff2a6d;
-    --neon-purple: #d300c5;
-    --cyber-yellow: #f7f700;
-    --cyber-green: #00ff9f;
-    --dark-bg: #0d0221;
-    --darker-bg: #05010f;
-    --terminal-green: #4afe9a;
-    --grid-color: rgba(0, 255, 255, 0.1);
-    --card-bg: rgba(13, 2, 33, 0.8);
-    --terminal-font: 'Courier New', monospace;
-    --cyber-font: 'Rajdhani', 'Orbitron', sans-serif;
+  --neon-blue: #0ff;
+  --neon-pink: #ff2a6d;
+  --neon-purple: #d300c5;
+  --cyber-yellow: #f7f700;
+  --cyber-green: #00ff9f;
+  --dark-bg: #0d0221;
+  --darker-bg: #05010f;
+  --terminal-green: #4afe9a;
+  --grid-color: rgba(0, 255, 255, 0.1);
+  --card-bg: rgba(13, 2, 33, 0.8);
+  --terminal-font: "Courier New", monospace;
+  --cyber-font: "Rajdhani", "Orbitron", sans-serif;
+}
+
+/* Global Override */
+body {
+  background-color: var(--darker-bg);
+  color: #fff;
+  font-family: var(--cyber-font);
+  background-image: radial-gradient(
+      circle at 50% 50%,
+      rgba(50, 8, 100, 0.15) 0%,
+      rgba(0, 0, 0, 0.4) 100%
+    ),
+    linear-gradient(var(--grid-color) 1px, transparent 1px),
+    linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
+  background-size: 100% 100%, 20px 20px, 20px 20px;
+  position: relative;
+  overflow-x: hidden;
+}
+
+body::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 5px;
+  background: linear-gradient(
+    90deg,
+    var(--neon-blue),
+    var(--neon-pink),
+    var(--cyber-yellow),
+    var(--cyber-green)
+  );
+  z-index: 1000;
+  box-shadow: 0 0 20px rgba(0, 255, 255, 0.7);
+}
+
+/* Main container enhancements */
+.container,
+.max-w-6xl,
+.max-w-4xl {
+  position: relative;
+  z-index: 10;
+}
+
+header .container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 90px;
+}
+
+/* Headers and Typography */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  color: #fff;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+  text-shadow: 0 0 5px var(--neon-blue), 0 0 10px var(--neon-blue);
+}
+
+h1.text-2xl,
+h2.text-xl {
+  position: relative;
+  display: inline-block;
+}
+
+h1.text-2xl::after,
+h2.text-xl::after {
+  content: "";
+  position: absolute;
+  left: 0;
+  bottom: -5px;
+  width: 100%;
+  height: 2px;
+  background: linear-gradient(90deg, var(--neon-blue), transparent);
+}
+
+/* Card Styling */
+.bg-white,
+.rounded-lg,
+.shadow-md {
+  background-color: var(--card-bg) !important;
+  border: 1px solid rgba(0, 255, 255, 0.2);
+  box-shadow: 0 0 15px rgba(0, 255, 255, 0.1) !important;
+  backdrop-filter: blur(10px);
+}
+
+.bg-white:hover,
+.hover\:shadow-lg:hover {
+  box-shadow: 0 0 25px rgba(0, 255, 255, 0.2) !important;
+  border: 1px solid rgba(0, 255, 255, 0.3);
+}
+
+/* Scenario Cards Styling */
+.card,
+div[key] {
+  transition: all 0.3s ease;
+  transform-style: preserve-3d;
+  position: relative;
+  overflow: hidden;
+}
+
+.card::before,
+div[key]::before {
+  content: "";
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(
+    45deg,
+    var(--neon-blue),
+    var(--neon-pink),
+    var(--neon-purple),
+    var(--cyber-green)
+  );
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  border-radius: inherit;
+}
+
+.card:hover::before,
+div[key]:hover::before {
+  opacity: 1;
+  animation: borderGlow 1.5s linear infinite;
+}
+
+/* Button Styling */
+button {
+  position: relative;
+  border: none !important;
+  overflow: hidden;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  transition: all 0.3s ease !important;
+  z-index: 1;
+}
+
+button::before {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(to top, var(--neon-blue), transparent);
+  opacity: 0.2;
+  transition: all 0.3s ease;
+  z-index: -1;
+}
+
+button:hover::before {
+  opacity: 0.5;
+}
+
+button:active {
+  transform: scale(0.98);
+}
+
+/* Button Colors Override */
+.bg-green-500,
+.hover\:bg-green-600:hover {
+  background-color: transparent !important;
+  box-shadow: 0 0 10px var(--cyber-green), inset 0 0 10px var(--cyber-green) !important;
+  color: var(--cyber-green) !important;
+  border: 1px solid var(--cyber-green) !important;
+}
+
+.bg-red-500,
+.hover\:bg-red-600:hover {
+  background-color: transparent !important;
+  box-shadow: 0 0 10px var(--neon-pink), inset 0 0 10px var(--neon-pink) !important;
+  color: var(--neon-pink) !important;
+  border: 1px solid var(--neon-pink) !important;
+}
+
+.bg-blue-500,
+.hover\:bg-blue-600:hover {
+  background-color: transparent !important;
+  box-shadow: 0 0 10px var(--neon-blue), inset 0 0 10px var(--neon-blue) !important;
+  color: var(--neon-blue) !important;
+  border: 1px solid var(--neon-blue) !important;
+}
+
+.bg-yellow-500,
+.hover\:bg-yellow-600:hover {
+  background-color: transparent !important;
+  box-shadow: 0 0 10px var(--cyber-yellow), inset 0 0 10px var(--cyber-yellow) !important;
+  color: var(--cyber-yellow) !important;
+  border: 1px solid var(--cyber-yellow) !important;
+}
+
+.bg-gray-500,
+.hover\:bg-gray-600:hover,
+.bg-gray-200,
+.hover\:bg-gray-300:hover {
+  background-color: transparent !important;
+  box-shadow: 0 0 10px rgba(255, 255, 255, 0.3),
+    inset 0 0 10px rgba(255, 255, 255, 0.2) !important;
+  color: rgba(255, 255, 255, 0.8) !important;
+  border: 1px solid rgba(255, 255, 255, 0.4) !important;
+}
+
+/* Chart Styling */
+.recharts-surface {
+  filter: drop-shadow(0 0 5px var(--neon-blue));
+}
+
+.recharts-cartesian-grid-horizontal line,
+.recharts-cartesian-grid-vertical line {
+  stroke: rgba(0, 255, 255, 0.2);
+}
+
+.recharts-tooltip-wrapper {
+  background-color: var(--darker-bg) !important;
+  border: 1px solid var(--neon-blue) !important;
+  box-shadow: 0 0 10px var(--neon-blue) !important;
+}
+
+.recharts-default-tooltip {
+  background-color: var(--darker-bg) !important;
+  border-color: var(--neon-blue) !important;
+  font-family: var(--terminal-font) !important;
+}
+
+/* Terminal-style logs */
+.max-h-80,
+.h-40 {
+  font-family: var(--terminal-font);
+  background-color: rgba(0, 0, 0, 0.8);
+  border: 1px solid var(--terminal-green);
+  box-shadow: 0 0 10px rgba(74, 254, 154, 0.2);
+}
+
+.max-h-80 div,
+.h-40 div {
+  color: var(--terminal-green);
+  text-shadow: 0 0 5px rgba(74, 254, 154, 0.5);
+}
+
+/* Status indicators */
+.text-green-600 {
+  color: var(--cyber-green) !important;
+  text-shadow: 0 0 5px var(--cyber-green);
+}
+
+.text-red-600 {
+  color: var(--neon-pink) !important;
+  text-shadow: 0 0 5px var(--neon-pink);
+}
+
+.text-blue-600 {
+  color: var(--neon-blue) !important;
+  text-shadow: 0 0 5px var(--neon-blue);
+}
+
+/* Background colors override */
+.bg-red-100,
+.bg-green-100,
+.bg-blue-100,
+.bg-yellow-100,
+.bg-gray-100,
+.bg-gray-50 {
+  background-color: rgba(5, 1, 15, 0.5) !important;
+  backdrop-filter: blur(5px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Glitch Effect for Event Notifications */
+.glitch {
+  position: relative;
+}
+
+.glitch::before,
+.glitch::after {
+  content: attr(data-text);
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+}
+
+.glitch::before {
+  left: 2px;
+  text-shadow: -2px 0 var(--neon-pink);
+  clip: rect(24px, 550px, 90px, 0);
+  animation: glitch-anim-2 3s infinite linear alternate-reverse;
+}
+
+.glitch::after {
+  left: -2px;
+  text-shadow: -2px 0 var(--neon-blue);
+  clip: rect(85px, 550px, 140px, 0);
+  animation: glitch-anim 2.5s infinite linear alternate-reverse;
+}
+
+/* Header styling */
+header.bg-blue-600 {
+  background: linear-gradient(
+    90deg,
+    var(--darker-bg),
+    var(--dark-bg)
+  ) !important;
+  border-bottom: 2px solid var(--neon-blue);
+  box-shadow: 0 5px 15px rgba(0, 255, 255, 0.2);
+}
+
+/* Footer styling */
+footer.bg-gray-800 {
+  background: linear-gradient(
+    90deg,
+    var(--darker-bg),
+    var(--dark-bg)
+  ) !important;
+  border-top: 2px solid var(--neon-blue);
+  box-shadow: 0 -5px 15px rgba(0, 255, 255, 0.2);
+}
+
+/* Notification styling */
+.fixed.top-4.right-4 {
+  background: var(--darker-bg) !important;
+  border: 1px solid var(--neon-blue);
+  box-shadow: 0 0 20px var(--neon-blue) !important;
+  font-family: var(--terminal-font);
+  animation: glowPulse 2s infinite;
+}
+
+/* Animations */
+@keyframes glitch-anim {
+  0% {
+    clip: rect(34px, 9999px, 65px, 0);
   }
-  
-  /* Global Override */
+  5% {
+    clip: rect(99px, 9999px, 21px, 0);
+  }
+  10% {
+    clip: rect(23px, 9999px, 46px, 0);
+  }
+  /* ... more random frames ... */
+  100% {
+    clip: rect(82px, 9999px, 59px, 0);
+  }
+}
+
+@keyframes glitch-anim-2 {
+  0% {
+    clip: rect(86px, 9999px, 11px, 0);
+  }
+  5% {
+    clip: rect(3px, 9999px, 59px, 0);
+  }
+  10% {
+    clip: rect(76px, 9999px, 95px, 0);
+  }
+  /* ... more random frames ... */
+  100% {
+    clip: rect(2px, 9999px, 47px, 0);
+  }
+}
+
+@keyframes borderGlow {
+  0% {
+    opacity: 0.3;
+  }
+  50% {
+    opacity: 0.7;
+  }
+  100% {
+    opacity: 0.3;
+  }
+}
+
+@keyframes glowPulse {
+  0% {
+    box-shadow: 0 0 10px var(--neon-blue);
+  }
+  50% {
+    box-shadow: 0 0 20px var(--neon-blue), 0 0 30px var(--neon-blue);
+  }
+  100% {
+    box-shadow: 0 0 10px var(--neon-blue);
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: var(--darker-bg);
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--neon-blue);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--neon-pink);
+}
+
+/* Media Queries */
+@media (max-width: 768px) {
   body {
-    background-color: var(--darker-bg);
-    color: #fff;
-    font-family: var(--cyber-font);
-    background-image: 
-      radial-gradient(circle at 50% 50%, rgba(50, 8, 100, 0.15) 0%, rgba(0, 0, 0, 0.4) 100%),
-      linear-gradient(var(--grid-color) 1px, transparent 1px),
-      linear-gradient(90deg, var(--grid-color) 1px, transparent 1px);
-    background-size: 100% 100%, 20px 20px, 20px 20px;
-    position: relative;
-    overflow-x: hidden;
+    background-size: 100% 100%, 15px 15px, 15px 15px;
   }
-  
-  body::before {
-    content: "";
-    position: fixed;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 5px;
-    background: linear-gradient(90deg, var(--neon-blue), var(--neon-pink), var(--cyber-yellow), var(--cyber-green));
-    z-index: 1000;
-    box-shadow: 0 0 20px rgba(0, 255, 255, 0.7);
-  }
-  
-  /* Main container enhancements */
-  .container, .max-w-6xl, .max-w-4xl {
-    position: relative;
-    z-index: 10;
-  }
-  
-  /* Headers and Typography */
-  h1, h2, h3, h4, h5, h6 {
-    color: #fff;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    font-weight: 700;
-    margin-bottom: 0.5rem;
-    text-shadow: 0 0 5px var(--neon-blue), 0 0 10px var(--neon-blue);
-  }
-  
-  h1.text-2xl, h2.text-xl {
-    position: relative;
-    display: inline-block;
-  }
-  
-  h1.text-2xl::after, h2.text-xl::after {
-    content: "";
-    position: absolute;
-    left: 0;
-    bottom: -5px;
-    width: 100%;
-    height: 2px;
-    background: linear-gradient(90deg, var(--neon-blue), transparent);
-  }
-  
-  /* Card Styling */
-  .bg-white, .rounded-lg, .shadow-md {
-    background-color: var(--card-bg) !important;
-    border: 1px solid rgba(0, 255, 255, 0.2);
-    box-shadow: 0 0 15px rgba(0, 255, 255, 0.1) !important;
-    backdrop-filter: blur(10px);
-  }
-  
-  .bg-white:hover, .hover\:shadow-lg:hover {
-    box-shadow: 0 0 25px rgba(0, 255, 255, 0.2) !important;
-    border: 1px solid rgba(0, 255, 255, 0.3);
-  }
-  
-  /* Scenario Cards Styling */
-  .card, div[key] {
-    transition: all 0.3s ease;
-    transform-style: preserve-3d;
-    position: relative;
-    overflow: hidden;
-  }
-  
-  .card::before, div[key]::before {
-    content: "";
-    position: absolute;
-    top: -2px;
-    left: -2px;
-    right: -2px;
-    bottom: -2px;
-    background: linear-gradient(45deg, var(--neon-blue), var(--neon-pink), var(--neon-purple), var(--cyber-green));
-    z-index: -1;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-    border-radius: inherit;
-  }
-  
-  .card:hover::before, div[key]:hover::before {
-    opacity: 1;
-    animation: borderGlow 1.5s linear infinite;
-  }
-  
-  /* Button Styling */
+
   button {
-    position: relative;
-    border: none !important;
-    overflow: hidden;
-    text-transform: uppercase;
-    letter-spacing: 1px;
-    transition: all 0.3s ease !important;
-    z-index: 1;
+    font-size: 0.8rem;
   }
-  
-  button::before {
-    content: "";
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: linear-gradient(to top, var(--neon-blue), transparent);
-    opacity: 0.2;
-    transition: all 0.3s ease;
-    z-index: -1;
-  }
-  
-  button:hover::before {
-    opacity: 0.5;
-  }
-  
-  button:active {
-    transform: scale(0.98);
-  }
-  
-  /* Button Colors Override */
-  .bg-green-500, .hover\:bg-green-600:hover {
-    background-color: transparent !important;
-    box-shadow: 0 0 10px var(--cyber-green), inset 0 0 10px var(--cyber-green) !important;
-    color: var(--cyber-green) !important;
-    border: 1px solid var(--cyber-green) !important;
-  }
-  
-  .bg-red-500, .hover\:bg-red-600:hover {
-    background-color: transparent !important;
-    box-shadow: 0 0 10px var(--neon-pink), inset 0 0 10px var(--neon-pink) !important;
-    color: var(--neon-pink) !important;
-    border: 1px solid var(--neon-pink) !important;
-  }
-  
-  .bg-blue-500, .hover\:bg-blue-600:hover {
-    background-color: transparent !important;
-    box-shadow: 0 0 10px var(--neon-blue), inset 0 0 10px var(--neon-blue) !important;
-    color: var(--neon-blue) !important;
-    border: 1px solid var(--neon-blue) !important;
-  }
-  
-  .bg-yellow-500, .hover\:bg-yellow-600:hover {
-    background-color: transparent !important;
-    box-shadow: 0 0 10px var(--cyber-yellow), inset 0 0 10px var(--cyber-yellow) !important;
-    color: var(--cyber-yellow) !important;
-    border: 1px solid var(--cyber-yellow) !important;
-  }
-  
-  .bg-gray-500, .hover\:bg-gray-600:hover,
-  .bg-gray-200, .hover\:bg-gray-300:hover {
-    background-color: transparent !important;
-    box-shadow: 0 0 10px rgba(255, 255, 255, 0.3), inset 0 0 10px rgba(255, 255, 255, 0.2) !important;
-    color: rgba(255, 255, 255, 0.8) !important;
-    border: 1px solid rgba(255, 255, 255, 0.4) !important;
-  }
-  
-  /* Chart Styling */
-  .recharts-surface {
-    filter: drop-shadow(0 0 5px var(--neon-blue));
-  }
-  
-  .recharts-cartesian-grid-horizontal line,
-  .recharts-cartesian-grid-vertical line {
-    stroke: rgba(0, 255, 255, 0.2);
-  }
-  
-  .recharts-tooltip-wrapper {
-    background-color: var(--darker-bg) !important;
-    border: 1px solid var(--neon-blue) !important;
-    box-shadow: 0 0 10px var(--neon-blue) !important;
-  }
-  
-  .recharts-default-tooltip {
-    background-color: var(--darker-bg) !important;
-    border-color: var(--neon-blue) !important;
-    font-family: var(--terminal-font) !important;
-  }
-  
-  /* Terminal-style logs */
-  .max-h-80, .h-40 {
-    font-family: var(--terminal-font);
-    background-color: rgba(0, 0, 0, 0.8);
-    border: 1px solid var(--terminal-green);
-    box-shadow: 0 0 10px rgba(74, 254, 154, 0.2);
-  }
-  
-  .max-h-80 div, .h-40 div {
-    color: var(--terminal-green);
-    text-shadow: 0 0 5px rgba(74, 254, 154, 0.5);
-  }
-  
-  /* Status indicators */
-  .text-green-600 {
-    color: var(--cyber-green) !important;
-    text-shadow: 0 0 5px var(--cyber-green);
-  }
-  
-  .text-red-600 {
-    color: var(--neon-pink) !important;
-    text-shadow: 0 0 5px var(--neon-pink);
-  }
-  
-  .text-blue-600 {
-    color: var(--neon-blue) !important;
-    text-shadow: 0 0 5px var(--neon-blue);
-  }
-  
-  /* Background colors override */
-  .bg-red-100, .bg-green-100, .bg-blue-100, .bg-yellow-100, .bg-gray-100, .bg-gray-50 {
-    background-color: rgba(5, 1, 15, 0.5) !important;
-    backdrop-filter: blur(5px);
-    border: 1px solid rgba(255, 255, 255, 0.1);
-  }
-  
-  /* Glitch Effect for Event Notifications */
-  .glitch {
-    position: relative;
-  }
-  
-  .glitch::before, .glitch::after {
-    content: attr(data-text);
-    position: absolute;
+}
+
+/* Digital price counter animation */
+.price-counter {
+  font-family: var(--terminal-font);
+  position: relative;
+  overflow: hidden;
+  display: inline-block;
+}
+
+.price-counter::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: var(--neon-blue);
+  animation: scan 2s linear infinite;
+}
+
+@keyframes scan {
+  0% {
     top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
   }
-  
-  .glitch::before {
-    left: 2px;
-    text-shadow: -2px 0 var(--neon-pink);
-    clip: rect(24px, 550px, 90px, 0);
-    animation: glitch-anim-2 3s infinite linear alternate-reverse;
+  100% {
+    top: 100%;
   }
-  
-  .glitch::after {
-    left: -2px;
-    text-shadow: -2px 0 var(--neon-blue);
-    clip: rect(85px, 550px, 140px, 0);
-    animation: glitch-anim 2.5s infinite linear alternate-reverse;
-  }
-  
-  /* Header styling */
-  header.bg-blue-600 {
-    background: linear-gradient(90deg, var(--darker-bg), var(--dark-bg)) !important;
-    border-bottom: 2px solid var(--neon-blue);
-    box-shadow: 0 5px 15px rgba(0, 255, 255, 0.2);
-  }
-  
-  /* Footer styling */
-  footer.bg-gray-800 {
-    background: linear-gradient(90deg, var(--darker-bg), var(--dark-bg)) !important;
-    border-top: 2px solid var(--neon-blue);
-    box-shadow: 0 -5px 15px rgba(0, 255, 255, 0.2);
-  }
-  
-  /* Notification styling */
-  .fixed.top-4.right-4 {
-    background: var(--darker-bg) !important;
-    border: 1px solid var(--neon-blue);
-    box-shadow: 0 0 20px var(--neon-blue) !important;
-    font-family: var(--terminal-font);
-    animation: glowPulse 2s infinite;
-  }
-  
-  /* Animations */
-  @keyframes glitch-anim {
-    0% {
-      clip: rect(34px, 9999px, 65px, 0);
-    }
-    5% {
-      clip: rect(99px, 9999px, 21px, 0);
-    }
-    10% {
-      clip: rect(23px, 9999px, 46px, 0);
-    }
-    /* ... more random frames ... */
-    100% {
-      clip: rect(82px, 9999px, 59px, 0);
-    }
-  }
-  
-  @keyframes glitch-anim-2 {
-    0% {
-      clip: rect(86px, 9999px, 11px, 0);
-    }
-    5% {
-      clip: rect(3px, 9999px, 59px, 0);
-    }
-    10% {
-      clip: rect(76px, 9999px, 95px, 0);
-    }
-    /* ... more random frames ... */
-    100% {
-      clip: rect(2px, 9999px, 47px, 0);
-    }
-  }
-  
-  @keyframes borderGlow {
-    0% {
-      opacity: 0.3;
-    }
-    50% {
-      opacity: 0.7;
-    }
-    100% {
-      opacity: 0.3;
-    }
-  }
-  
-  @keyframes glowPulse {
-    0% {
-      box-shadow: 0 0 10px var(--neon-blue);
-    }
-    50% {
-      box-shadow: 0 0 20px var(--neon-blue), 0 0 30px var(--neon-blue);
-    }
-    100% {
-      box-shadow: 0 0 10px var(--neon-blue);
-    }
-  }
-  
-  /* Custom scrollbar */
-  ::-webkit-scrollbar {
-    width: 6px;
-    height: 6px;
-  }
-  
-  ::-webkit-scrollbar-track {
-    background: var(--darker-bg);
-  }
-  
-  ::-webkit-scrollbar-thumb {
-    background: var(--neon-blue);
-    border-radius: 3px;
-  }
-  
-  ::-webkit-scrollbar-thumb:hover {
-    background: var(--neon-pink);
-  }
-  
-  /* Media Queries */
-  @media (max-width: 768px) {
-    body {
-      background-size: 100% 100%, 15px 15px, 15px 15px;
-    }
-    
-    button {
-      font-size: 0.8rem;
-    }
-  }
-  
-  /* Digital price counter animation */
-  .price-counter {
-    font-family: var(--terminal-font);
-    position: relative;
-    overflow: hidden;
-    display: inline-block;
-  }
-  
-  .price-counter::before {
-    content: "";
-    position: absolute;
-    top: 0;
-    left: 0;
-    right: 0;
-    height: 2px;
-    background: var(--neon-blue);
-    animation: scan 2s linear infinite;
-  }
-  
-  @keyframes scan {
-    0% {
-      top: 0;
-    }
-    100% {
-      top: 100%;
-    }
-  }
+}

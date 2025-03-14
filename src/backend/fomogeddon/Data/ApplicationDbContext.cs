@@ -1,7 +1,10 @@
 
 using Microsoft.EntityFrameworkCore;
 using fomogeddon.model;
-
+using fomogeddon.DTOS.ResponseDTO;
+using fomogeddon.DTOS;
+using System.Text.Json;
+using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace fomogeddon.Data
 {
     public class ApplicationDbContext : DbContext
@@ -10,14 +13,16 @@ namespace fomogeddon.Data
             : base(options)
         {
         }
-        public DbSet<EventInfo> EventInfos { get; set; }
-        public DbSet<HistoryPoint> VoteCaHistoryPoints { get; set; }
-        public DbSet<Scenario> Scenario { get; set; }
         public DbSet<ScenarioPlayData> ScenarioPlayData { get; set; }
+        public DbSet<Play_User> play_user { get; set; }
+        public DbSet<Scenario> origin_scenario {get; set;}
 
+        //public DbSet<PlayLeaderBoardResponseDTO> PlayLeaderBoardResponseDTO {get; set;}
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-           
+            modelBuilder.Entity<PlayLeaderBoardResponseDTO>().HasNoKey();
+
+            base.OnModelCreating(modelBuilder);
         }
     }
 

@@ -1,0 +1,54 @@
+header {
+  padding: 8px 24px !important;
+}
+header .left-wrap {
+  display: flex;
+  gap: 40px;
+}
+header nav ul {
+  display: flex;
+  gap: 12px;
+  margin-top: 6px;
+}
+header nav ul li {
+  position: relative;
+  cursor: pointer;
+}
+header nav ul li.select::after {
+  content: "";
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background: #fff;
+  box-shadow: 0 0 5px var(--neon-blue), 0 0 10px var(--neon-blue);
+}
+header nav ul li h6 {
+  margin: 0 !important;
+  font-size: 18px;
+}
+
+footer {
+  height: 56px !important;
+  padding: 0 !important;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.logo {
+  cursor: pointer;
+}
+
+.disconnect-btn {
+  height: 32px;
+  padding: 0 12px;
+}
+
+.wellet-info {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+}
